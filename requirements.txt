@@ -1,0 +1,11 @@
+tweepy 
+spacy 
+spacytextblob
+datetime
+seaborn
+pandas
+numpy
+matplotlib
+emoji
+contractions
+dominate
