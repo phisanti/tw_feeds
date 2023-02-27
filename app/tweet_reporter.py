@@ -9,6 +9,19 @@ from app.html_builder import build_email
 from app.figure_maker import plot_wordcount, plot_word_correlation, plot_timechart
 from spacytextblob.spacytextblob import SpacyTextBlob
 
+def grep_dict(dictionary, key):
+    """
+    Search for a specific key in a dictionary and return its corresponding value(s).
+    :param dictionary: Dictionary to search in.
+    :param key: Key to search for.
+    """
+
+    values = []
+    for k, v in dictionary.items():
+        if key in k:
+            values.append(v)
+    return values
+
 def get_next_run_time():
     now = datetime.datetime.now()
     today = datetime.datetime.today()
@@ -59,27 +72,33 @@ def run_tweet_report(config, nlp=None, boring_list=None):
         nlp.add_pipe('spacytextblob')
 
     # Get tweets
-    client=config_tweepy_client(config)
-    max_res, limit = get_n_tweets(config)
-    list_pages=get_list_of_pages(client, list_id=config['LIST_ID'], max_results=max_res, limit=limit)
-    list_of_tweets=tweets_from_pages(client, list_pages) 
-    twlist=tweet_to_df(list_of_tweets)
+    all_list = grep_dict(config, 'LIST')
+    for list_id in all_list:
 
-    # Extract nouns
-    twlist['nouns'], twlist['tokens'], twlist['sentiment'], twlist['polarity'] = tweet_analyser(twlist, nlp, boring_list=boring_list)
-    twlist['score'] = score_tweets(twlist, column='tokens')
+        client=config_tweepy_client(config)
+        max_res, limit = get_n_tweets(config)
+        list_pages=get_list_of_pages(client, list_id=list_id, max_results=max_res, limit=limit)
+        list_of_tweets=tweets_from_pages(client, list_pages) 
+        twlist=tweet_to_df(list_of_tweets)
 
-    # Plot figures
-    plot_wordcount(twlist, column='nouns', cutoff=30)
-    plot_timechart(twlist)
-    list_to_words=top_words(word_counter(twlist['tokens']), 20)
-    plot_word_correlation(twlist, 'tokens', list_to_words)
-    
-    # Build email
-    attachment_cid=make_msgid_list(4)
-    email=build_email(attachment_cid, twlist, n_relevant_tweets=20, n_top_tweets=20)
+        # Extract nouns
+        twlist['nouns'], twlist['tokens'], twlist['sentiment'], twlist['polarity'] = tweet_analyser(twlist, nlp, boring_list=boring_list)
+        twlist['score'] = score_tweets(twlist, column='tokens')
 
-    # Send email
-    send_newsletter_from_ram(config, email_html=email, attachment_cid=attachment_cid)
+        # Plot figures
+        plot_wordcount(twlist, column='nouns', cutoff=30)
+        plot_timechart(twlist)
+        list_to_words=top_words(word_counter(twlist['tokens']), 20)
+        plot_word_correlation(twlist, 'tokens', list_to_words)
+        
+        # Build email
+        attachment_cid=make_msgid_list(4)
+        email=build_email(attachment_cid, twlist, n_relevant_tweets=20, n_top_tweets=20)
+
+        # Send email
+        send_newsletter_from_ram(config, email_html=email, attachment_cid=attachment_cid)
+        
+        # Wait for 15 minutes before calling again tweeter API (to avoid rate limit)
+        time.sleep(900)
 
     return twlist, email, attachment_cid

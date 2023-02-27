@@ -1,9 +1,13 @@
 import dominate
 import pandas as pd
 from dominate.tags import *
-from email.utils import make_msgid
 
 def read_css_file(filename):
+
+    """Read a css file and return a string
+    :param filename: a css file name
+    """
+
     with open(filename, 'r') as file:
         css_string = file.read()
     return css_string
@@ -190,6 +194,7 @@ def join_tweets(body, mytable, list_of_tweets) -> dominate.document:
     :param mytable: the table to be populated
     :param list_of_tweets: the list of tweets to be joined
     """
+
     counter = 0
     for row in list_of_tweets.itertuples():
         counter += 1
@@ -200,6 +205,13 @@ def join_tweets(body, mytable, list_of_tweets) -> dominate.document:
     return body
 
 def create_headings(body, list_of_tweets, attachment_cid, inline_title_style) -> dominate.document:
+
+    """create the headings for the email
+    :param body: the body of the email
+    :param list_of_tweets: the list of tweets to be joined
+    :param attachment_cid: the cid of the image to be attached
+    :param inline_title_style: the style of the title
+    """
 
     with body:
         with table(cls='main_table', id='main_table') as maintable:
@@ -258,6 +270,14 @@ def create_headings(body, list_of_tweets, attachment_cid, inline_title_style) ->
 
 def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_tweets=10, save_email=False) -> dominate.document:
 
+    """build the email
+    Takes the list of tweets and builds the email newsletter.
+    :param attachment_cid: the cid of the image to be attached
+    :param list_of_tweets: the list of tweets to be joined
+    :param n_top_tweets: the number of top tweets to be included
+    :param n_relevant_tweets: the number of relevant tweets to be included
+    :param save_email: whether to save the email
+    """
     doc_style = read_css_file('datafiles/newsletter_style.css')
     doc = dominate.document(title='Tweeter Report')
     inline_title_style="""margin: 100px 25px 50px 25px;
@@ -291,8 +311,3 @@ def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_twee
             f.write(doc.render())
 
     return doc
-
-#attachment_cid=[make_msgid('image1'), make_msgid('image2'), make_msgid('image3'), make_msgid('image4')]
-#email=build_email(attachment_cid, twlist, save_email=True)
-#with open('test.html', 'w') as f:
-#    f.write(email.render())
