@@ -18,7 +18,7 @@ setup(
     packages = find_packages(),
     entry_points ={
             'console_scripts': [
-                'tweet_analyser = app.main:main'
+                'tweet_analyser = app.main:command_args'
             ]
         },
     classifiers =(

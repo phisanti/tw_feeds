@@ -54,3 +54,6 @@ think
 take
 do
 more
+thing
+way
+guy

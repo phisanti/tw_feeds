@@ -1,0 +1,109 @@
+/* General styles */
+body {
+    background-color: #f9f8f1;
+    color: #2c232a;
+    font-family: sans-serif;
+    font-size: 2em;
+    margin: 3em 1em;
+}
+
+/* Tweet styles */
+.tweet_cell {
+    font-size: medium;
+    padding: 14px 24px;
+    max-width: 700px;
+}
+
+.tweet_row_even {
+    background-color: #f9fafb;
+}
+
+.tweet_row_odd {
+    background-color: #ffffff;
+}
+
+.username_cell, .username_cell_qt {
+    padding-left: 12px;
+    padding-top: 6px;
+    font-weight: bold;
+    color: #2c232a;
+    font-family: Helvetica;
+}
+
+/* Table styles */
+.main_table, .quote {
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px grey solid;
+    border-radius: 12px;
+}
+
+.main_table {
+    filter: alpha(opacity=40);
+    opacity: 0.95;
+}
+
+.quote {
+    filter: alpha(opacity=40);
+    opacity: 0.95;
+    min-width: 650px;
+    border-radius: 30px;
+}
+
+/* Avatar styles */
+.avatar {
+    border-radius: 50%;
+    max-width: 48px;
+    max-height: 48px;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: black;
+        color: #f9fafb;
+    }
+
+    .section_title {
+        background-color: #374151;
+        color: #f9fafb;
+    }
+
+    .main_table, .username_cell, .username_cell_qt {
+        color: #f9fafb;
+    }
+
+    .tweet_row_even {
+        background-color: #4b5563;
+    }
+
+    .tweet_row_odd {
+        background-color: #374151;
+    }
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 700px) {
+    .prof_cell {
+        max-width: 10px;
+    }
+
+    .tweet_cell {
+        font-size: medium;
+        padding: 1px;
+        max-width: 100%;
+    }
+
+    .quote {
+        min-width: 120px;
+        border-radius: 6px;
+    }
+
+    .username_cell {
+        padding-left: 24px !important;
+    }
+
+    .username_cell_qt {
+        padding-left: 60px !important;
+    }
+}

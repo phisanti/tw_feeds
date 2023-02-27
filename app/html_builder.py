@@ -3,6 +3,11 @@ import pandas as pd
 from dominate.tags import *
 from email.utils import make_msgid
 
+def read_css_file(filename):
+    with open(filename, 'r') as file:
+        css_string = file.read()
+    return css_string
+
 def dict_to_obj(dict) -> object:
 
     """Convert a dictionary to an object
@@ -253,6 +258,7 @@ def create_headings(body, list_of_tweets, attachment_cid, inline_title_style) ->
 
 def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_tweets=10, save_email=False) -> dominate.document:
 
+    doc_style = read_css_file('datafiles/newsletter_style.css')
     doc = dominate.document(title='Tweeter Report')
     inline_title_style="""margin: 100px 25px 50px 25px;
                           padding-left: 24px;
@@ -266,108 +272,7 @@ def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_twee
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(http_equiv='Content-Type', content='text/html; charset=utf-8')
         meta(http_equiv='X-UA-Compatible', content='IE=edge')
-        style(""".body {
-                        background-color: #F9F8F1;
-                        color: #2C232A;
-                        font-family: sans-serif;
-                        font-size: 2 em;
-                        margin: 3em 1em;
-                    }
-                    .tweet_cell {
-                        font-size:medium;
-                        padding:14px;
-                        padding-left: 24px;
-                        padding-right: 24px;
-                        max-width: 700px
-                    }
-                    .tweet_row_even {
-                      background-color: #F9FAFB;
-                    }
-                    .tweet_row_odd {
-                      background-color: #FFFFFF;
-                    }
-                    .username_cell {
-                        padding-left: 12px; 
-                        padding-top: 6px; 
-                        font-weight: bold;
-                        color: #2C232A;
-                        font-family:Helvetica
-                    }
-                    .username_cell_qt {
-                        padding-left: 12px; 
-                        padding-top: 6px; 
-                        font-weight: bold;
-                        color: #2C232A;
-                        font-family:Helvetica
-                    }
-                    .main_table {
-                    margin-left: auto;
-                    margin-right: auto;
-                    background-color: #ffffff; 
-                    filter: alpha(opacity=40); 
-                    opacity: 0.95;
-                    border:1px grey solid;
-                    border-radius:12px;
-                    }
-                    .quote {
-                    margin-left: auto;
-                    margin-right: auto;
-                    background-color: #ffffff; 
-                    filter: alpha(opacity=40); 
-                    opacity: 0.95;
-                    min-width: 650px;
-                    border:1px grey solid;
-                    border-radius:30px;
-                    }
-                    .avatar {
-                        border-radius: 50%;
-                        max-width: 48px;
-                        max-height: 48px;
-                    }
-                    
-                    @media (prefers-color-scheme: dark) {
-                    .body {
-                       
-                    background-color: black;
-                    color: #F9FAFB;
-                    }
-                    .section_title {
-                    background-color: #374151;
-                    color: #F9FAFB;
-                    }
-                    .main_table {
-                    color: #F9FAFB
-                    }
-                    .tweet_row_even {
-                      background-color: #4B5563;
-                    }
-                    .tweet_row_odd {
-                      background-color: #374151;
-                    }
-                    }
-
-                    @media only screen and (max-width: 700px) {
-                    .prof_cell {
-                        max-width: 10px;
-                    }
-                    .tweet_cell {
-                        font-size:medium;
-                        padding:1px;
-                        max-width: 100%
-                    }
-                    .quote { 
-                        min-width: 120px;
-                        border-radius:6px;
-                    }
-                    .username_cell {
-                        padding-left: 24px!important;
-                    }
-                    .username_cell_qt {
-                        padding-left: 60px!important;
-                    }
-                    }
-                    """
-        )
+        style(doc_style)
 
     with doc.body as doc_body:
         create_headings(doc_body, list_of_tweets, attachment_cid, inline_title_style)

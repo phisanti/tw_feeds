@@ -83,9 +83,3 @@ def run_tweet_report(config, nlp=None, boring_list=None):
     send_newsletter_from_ram(config, email_html=email, attachment_cid=attachment_cid)
 
     return twlist, email, attachment_cid
-
-config = dotenv_values(".env")
-twlist, email, attachment_cid=run_tweet_report(config)
-#list_to_words=top_words(word_counter(twlist['nouns']), 20)
-#with open('test.html', 'w') as f:
-#    f.write(email.render())

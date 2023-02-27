@@ -182,9 +182,6 @@ def get_n_tweets(config):
 
     return max_results, limit
 
-
-
-
 def get_list_of_pages(client, list_id, max_results=100, limit=10):
 
     list_pages = tweepy.Paginator(client.get_list_tweets, list_id, 
