@@ -12,6 +12,10 @@ def read_css_file(filename):
         css_string = file.read()
     return css_string
 
+def remove_duplicates(df, column):
+    df_clean=df.drop_duplicates(subset=[column])
+    return df_clean
+
 def dict_to_obj(dict) -> object:
 
     """Convert a dictionary to an object
@@ -287,7 +291,10 @@ def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_twee
                           font-family:Helvetica;
                           font-weight: bold;
                           border-bottom: 5px solid grey;"""
+    
+    filtered_list_of_tweets = remove_duplicates(list_of_tweets, 'id')
 
+    # Add headings
     with doc.head:
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(http_equiv='Content-Type', content='text/html; charset=utf-8')
@@ -297,14 +304,15 @@ def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_twee
     with doc.body as doc_body:
         create_headings(doc_body, list_of_tweets, attachment_cid, inline_title_style)
     
+    # Add tweets
     join_tweets(doc.body, doc.body.getElementById('main_table'),  
-                        sort_df(list_of_tweets, 'score', n_relevant_tweets))
+                        sort_df(filtered_list_of_tweets, 'score', n_relevant_tweets))
     with doc.body.getElementById('main_table'):
         with tr(cls='section_title'):
             td(style='border-bottom: 5px solid grey')
             td("Best tweets", cls="section_title", style=inline_title_style)
     join_tweets(doc.body, doc.getElementById('main_table'),  
-                        sort_df(list_of_tweets, 'like_count', n_top_tweets))
+                        sort_df(filtered_list_of_tweets, 'like_count', n_top_tweets))
 
     if save_email:
         with open('app/datafiles/test.html', 'w') as f:
