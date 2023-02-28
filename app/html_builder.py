@@ -278,7 +278,7 @@ def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_twee
     :param n_relevant_tweets: the number of relevant tweets to be included
     :param save_email: whether to save the email
     """
-    doc_style = read_css_file('datafiles/newsletter_style.css')
+    doc_style = read_css_file('app/datafiles/newsletter_style.css')
     doc = dominate.document(title='Tweeter Report')
     inline_title_style="""margin: 100px 25px 50px 25px;
                           padding-left: 24px;
