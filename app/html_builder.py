@@ -292,7 +292,7 @@ def build_email(attachment_cid, list_of_tweets, n_top_tweets=10, n_relevant_twee
                           font-weight: bold;
                           border-bottom: 5px solid grey;"""
     
-    filtered_list_of_tweets = remove_duplicates(list_of_tweets, 'id')
+    filtered_list_of_tweets = remove_duplicates(list_of_tweets, 'tweet_id')
 
     # Add headings
     with doc.head:
