@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='tweeter_analyser',
-    version='0.2.6',
+    version='0.2.7',
     python_requires='>3.5.2',
     author ='Scm',
     author_email ='tisalon@outlook.com',

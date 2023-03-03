@@ -69,6 +69,17 @@ def send_newsletter_from_ram(email_config, email_html, attachment_cid) -> dict:
     receiver_email = email_config['RECEIVER_EMAIL']
     password = email_config['EMAIL_PASSWORD']
 
+    # Determine the email provider based on the sender's email address
+    if "@gmail.com" in sender_email:
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+    elif "@outlook.com" in sender_email or "@hotmail.com" in sender_email or "@live.com" in sender_email:
+        smtp_server = "smtp.office365.com"
+        smtp_port = 587
+    else:
+        print("Sender email is not a gmail or outlook account.")
+        return False
+
     email = EmailMessage()
     email["Subject"] = "multipart test day: {}".format(datetime.today().date())
     email["From"] = sender_email
@@ -86,7 +97,7 @@ def send_newsletter_from_ram(email_config, email_html, attachment_cid) -> dict:
     with open('app/dataplots/heatmap.png', 'rb') as fp:
         email.add_related(fp.read(), 'image3', 'png', cid=attachment_cid[3])
     
-    server = smtplib.SMTP('smtp.office365.com', 587)  ### put your relevant SMTP here
+    server = smtplib.SMTP(smtp_server, smtp_port)
     server.ehlo()
     server.starttls()
     server.ehlo()
