@@ -53,7 +53,7 @@ options:
 
 # Run
 
-Once the setting file is ready, you can run the tweeter report via `start` or `run`.
+Once the setting file is ready, you can run the tweeter report via `start` or `run`. Note that if the email associated with the bot is a Gmail, you'll need to enable less secure apps access for your Gmail account if you plan to use a Gmail account to send emails through this script. You can do this by following the instructions here: https://support.google.com/accounts/answer/6010255
 
 # Special words
 

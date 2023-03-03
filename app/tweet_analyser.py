@@ -54,8 +54,8 @@ def clean_tweet(tweet) -> str:
        expanded_tweet.append(contractions.fix(word))  
     tweet = ' '.join(expanded_tweet)
     tweet=emoji.replace_emoji(tweet,'')    
-    tweet = re.sub("&amp;", "and", tweet) # https://www.youtube.com/watch?v=O2onA4r5UaY
-    tweet = re.sub("http\\S+", "", tweet) # https://www.youtube.com/watch?v=O2onA4r5UaY
+    tweet = re.sub("&amp;", "and", tweet)
+    tweet = re.sub("http\\S+", "", tweet)
     tweet = re.sub('[^a-zA-Z 0-9]', '', tweet)
     tweet = re.sub('[%s]' % re.escape(string.punctuation), '', tweet) # Remove punctuation
     tweet = re.sub('\\w*\\d\\w*', '', tweet) # Remove words containing numbers
