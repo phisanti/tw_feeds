@@ -34,6 +34,23 @@ def add_boring_word() -> bool:
     
     return True
 
+# Create function to remove boring word
+def remove_boring_word() -> bool:
+    """ Remove a boring word from the boring list."""
+
+    word = input("Please enter a boring word: ")
+    with open('app/datafiles/boring_words.txt', 'r') as f:
+        lines = f.readlines()
+    with open('app/datafiles/boring_words.txt', 'w') as f:
+        for line in lines:
+            if line.strip("\n") != word:
+                f.write(line)
+                print(f'{word} removed from boring list')
+            else:
+                print(f'{word} not found in boring list')
+    
+    return True
+
 def show_config_file():
     """ Show the config file."""
 

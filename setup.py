@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='tweeter_analyser',
-    version='0.2.7',
+    version='0.3',
     python_requires='>3.5.2',
     author ='Scm',
     author_email ='tisalon@outlook.com',
@@ -14,6 +14,8 @@ setup(
     long_description_content_type ="text/markdown",
     license ='MIT',
     include_package_data=True,
+    packages=find_packages(where="app"),
+    package_dir={"": "app"},
     packages = find_packages(),
     entry_points ={
             'console_scripts': [

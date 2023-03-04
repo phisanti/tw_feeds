@@ -1,5 +1,5 @@
 import argparse
-from app.cli import start, run, stop, set_parameter, stop, create_config_file, show_config_file, add_boring_word
+from app.cli import start, run, stop, set_parameter, stop, create_config_file, show_config_file, add_boring_word, remove_boring_word
 
 def command_args():
 
@@ -15,6 +15,7 @@ def command_args():
     parser.add_argument('-c', '--create_config', help='Create a config file', action='store_true')
     parser.add_argument('-show', '--show_config', help='Show the config file', action='store_true') 
     parser.add_argument('-add', '--add_boring_word', help='Add words to the ignore list', action='store_true') 
+    parser.add_argument('-rm', '--rm_boring_word', help='Add words to the ignore list', action='store_true') 
 
     args = parser.parse_args()
 
@@ -33,6 +34,8 @@ def command_args():
         stop()
     elif args.add_boring_word:
         add_boring_word()
+    elif args.rm_boring_word:
+        remove_boring_word()
     else:
         print("Command not recognised")
 

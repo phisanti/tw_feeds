@@ -43,11 +43,15 @@ def plot_timechart(twlist) -> bool:
     twlist['created_h']=twlist['created'].dt.round('H')
 
     summary_tw=twlist[['sentiment', 'polarity', 'created_h']].groupby('created_h').mean()
+    # Add daily moving average 
+    summary_tw['sentiment_ma']=summary_tw['sentiment'].rolling(24).mean()
+    summary_tw['polarity_ma']=summary_tw['polarity'].rolling(24).mean()
     summary_tw=summary_tw[summary_tw.index > summary_tw.index.max() - pd.Timedelta(days=7)]
 
     for i in ['sentiment', 'polarity']:
         fig, ax = plt.subplots(figsize=(6, 10))
         lp=lineplot(x="created_h", y=i, data=summary_tw, ax=ax)
+        lineplot(x="created_h", y=i+"_ma", data=summary_tw, ax=ax, color='red', linestyle='--')       
         lp.set_xlabel(i,fontsize=30)
         lp.set_ylabel("Time",fontsize=20)
         plt.xticks(rotation=45, ha='right')
